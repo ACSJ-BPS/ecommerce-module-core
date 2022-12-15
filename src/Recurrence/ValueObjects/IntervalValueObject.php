@@ -3,7 +3,7 @@
 namespace Pagarme\Core\Recurrence\ValueObjects;
 
 use Pagarme\Core\Kernel\Abstractions\AbstractValueObject;
-use Unirest\Exception;
+use Casio\Unirest\Exception;
 
 class IntervalValueObject extends AbstractValueObject
 {
