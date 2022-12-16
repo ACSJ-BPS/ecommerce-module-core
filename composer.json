@@ -8,16 +8,10 @@
     }
   ],
   "type": "library",
-  "repositories": {
-    "pagarme-mundiapi": {
-      "type": "git",
-      "url": "https://github.com/ACSJ-BPS/MundiAPI-PHP.git"
-    }
-  },
   "require": {
     "php": ">=7.1",
     "monolog/monolog": "*",
-    "casio/mundiapi": "dev-casio-pagarme",
+    "casio/mundiapi": "3.0.1",
     "ext-json": "*"
   },
   "require-dev": {
