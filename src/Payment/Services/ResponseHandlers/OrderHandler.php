@@ -153,10 +153,10 @@ final class OrderHandler extends AbstractResponseHandler
 
         $this->createCaptureTransaction($order);
 
-        // CGL-5335
-        //$order->setStatus(OrderStatus::processing());
+        //CGL-5688
+        $order->setStatus(OrderStatus::processing());
         //@todo maybe an Order Aggregate should have a State too.
-        //$platformOrder->setState(OrderState::processing());
+        $platformOrder->setState(OrderState::processing());
 
         $i18n = new LocalizationService();
 
