@@ -11,10 +11,11 @@ final class OrderStatus extends AbstractValueObject
     const PROCESSING = 'processing';
     const CANCELED = 'canceled';
     const FAILED = 'failed';
+    const PENDING_PAGARME_VERIFICATION = 'pending_pagarme_verification';
 
     /**
      *
-     * @var string 
+     * @var string
      */
     private $status;
 
@@ -26,6 +27,12 @@ final class OrderStatus extends AbstractValueObject
     private function __construct($status)
     {
         $this->setStatus($status);
+    }
+
+    //CGL-5688
+    static public function pending_pagarme_verification()
+    {
+        return new self(self::PENDING_PAGARME_VERIFICATION);
     }
 
     static public function paid()
