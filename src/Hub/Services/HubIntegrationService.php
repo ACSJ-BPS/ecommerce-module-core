@@ -9,7 +9,7 @@ use Pagarme\Core\Hub\Factories\InstallTokenFactory;
 use Pagarme\Core\Hub\Repositories\InstallTokenRepository;
 use Pagarme\Core\Hub\ValueObjects\HubInstallToken;
 use Pagarme\Core\Kernel\Abstractions\AbstractModuleCoreSetup as MPSetup;
-use Unirest\Request;
+use Casio\Unirest\Request;
 
 final class HubIntegrationService
 {

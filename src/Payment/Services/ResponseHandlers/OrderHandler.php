@@ -152,8 +152,9 @@ final class OrderHandler extends AbstractResponseHandler
         $platformOrder = $order->getPlatformOrder();
 
         $this->createCaptureTransaction($order);
-
-        $order->setStatus(OrderStatus::processing());
+        
+        //CGL-5688
+        $order->setStatus(OrderStatus::pending_pagarme_verification());
         //@todo maybe an Order Aggregate should have a State too.
         $platformOrder->setState(OrderState::processing());
 

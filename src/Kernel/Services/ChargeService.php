@@ -14,7 +14,7 @@ use Pagarme\Core\Kernel\ValueObjects\Id\ChargeId;
 use Pagarme\Core\Kernel\ValueObjects\Id\OrderId;
 use Pagarme\Core\Payment\Services\ResponseHandlers\OrderHandler;
 use Pagarme\Core\Webhook\Services\ChargeOrderService;
-use Unirest\Exception;
+use Casio\Unirest\Exception;
 
 class ChargeService
 {

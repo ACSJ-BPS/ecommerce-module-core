@@ -15,6 +15,7 @@ final class ChargeStatus extends AbstractValueObject
 
     const UNDERPAID = 'underpaid';
     const OVERPAID = 'overpaid';
+    const PENDING_PAGARME_VERIFICATION = 'pending_pagarme_verification';
 
     /**
      *
@@ -70,6 +71,12 @@ final class ChargeStatus extends AbstractValueObject
     static public function failed()
     {
         return new self(self::FAILED);
+    }
+    
+    //CGL-5688
+    static public function pending_pagarme_verification()
+    {
+        return new self(self::PENDING_PAGARME_VERIFICATION);
     }
 
     /**
