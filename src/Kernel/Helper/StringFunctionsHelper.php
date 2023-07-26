@@ -132,7 +132,7 @@ class StringFunctionsHelper
         return preg_replace(
             "/[^a-zA-Z ]/",
             '',
-            $str
+            $str ?? ''
         );
     }
 
@@ -143,7 +143,7 @@ class StringFunctionsHelper
         return str_replace(
             "'",
             "`",
-            strip_tags($str)
+            strip_tags($str ?? '')
         );
     }
 
@@ -153,12 +153,15 @@ class StringFunctionsHelper
      */
     public static function removeLineBreaks($text)
     {
+        if($text === null) {
+            return "";
+        }
         $pattern = '/\\\s+\\\s\\\r\\\n|\\\r|\\\t|\\\n\\\r|\\\n/m';
         $textCleanBreakLines = trim(
             preg_replace(
                 $pattern,
                 ' ',
-                $text
+                $text ?? ''
             )
         );
 

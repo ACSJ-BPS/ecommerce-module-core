@@ -2,8 +2,8 @@
 
 namespace Pagarme\Core\Recurrence\Aggregates;
 
-use MundiAPILib\Models\CreatePlanRequest;
-use MundiAPILib\Models\UpdatePlanRequest;
+use PagarmeCoreApiLib\Models\CreatePlanRequest;
+use PagarmeCoreApiLib\Models\UpdatePlanRequest;
 use Pagarme\Core\Kernel\Abstractions\AbstractEntity;
 use Pagarme\Core\Kernel\Exceptions\InvalidParamException;
 use Pagarme\Core\Recurrence\Interfaces\RecurrenceEntityInterface;
@@ -390,6 +390,7 @@ final class Plan extends AbstractEntity implements RecurrenceEntityInterface, Pr
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $obj = new \stdClass();

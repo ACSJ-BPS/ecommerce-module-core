@@ -2,7 +2,7 @@
 
 namespace Pagarme\Core\Payment\Aggregates\Payments;
 
-use MundiAPILib\Models\CreatePixPaymentRequest;
+use PagarmeCoreApiLib\Models\CreatePixPaymentRequest;
 use Pagarme\Core\Kernel\Abstractions\AbstractEntity;
 use Pagarme\Core\Payment\ValueObjects\PaymentMethod;
 
@@ -72,6 +72,7 @@ final class PixPayment extends AbstractPayment
         $this->additionalInformation = $additionalInformation;
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $obj = parent::jsonSerialize();

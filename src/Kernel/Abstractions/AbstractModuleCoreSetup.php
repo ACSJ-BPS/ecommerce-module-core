@@ -4,7 +4,7 @@ namespace Pagarme\Core\Kernel\Abstractions;
 
 use Pagarme\Core\Kernel\Aggregates\Configuration;
 use Pagarme\Core\Kernel\Repositories\ConfigurationRepository;
-use MundiAPILib\Configuration as MundiAPIConfiguration;
+use PagarmeCoreApiLib\Configuration as PagarmeCoreAPIConfiguration;
 use ReflectionClass;
 
 abstract class AbstractModuleCoreSetup
@@ -81,33 +81,27 @@ abstract class AbstractModuleCoreSetup
     protected static function setApiBaseUrl()
     {
         if (static::$moduleConfig->isHubEnabled()) {
-            MundiAPIConfiguration::$BASEURI = 'https://hubapi.mundipagg.com/core/v1';
+            PagarmeCoreAPIConfiguration::$BASEURI = 'https://hubapi.mundipagg.com/core/v1';
         }
     }
 
     protected static function updateModuleConfiguration()
     {
-        $configurationRepository = new ConfigurationRepository;
-
         static::loadSavedConfiguration();
-
         $savedConfig = static::$moduleConfig;
         static::$instance->loadModuleConfigurationFromPlatform();
         static::$moduleConfig->setStoreId(static::getCurrentStoreId());
-
         if (
             $savedConfig !== null &&
             ($savedConfigId = $savedConfig->getId()) !== null
         ) {
             static::$moduleConfig->setid($savedConfigId);
         }
-
         if (self::getDefaultConfigSaved() === null) {
             static::$moduleConfig->setStoreId(static::getDefaultStoreId());
-            $configurationRepository->save(static::$moduleConfig);
+            static::saveModuleConfig();
             static::$moduleConfig->setStoreId(static::getCurrentStoreId());
         }
-
         if (
             static::$moduleConfig->getStoreId() != static::getDefaultStoreId() &&
             $savedConfig === null
@@ -116,10 +110,16 @@ abstract class AbstractModuleCoreSetup
             static::$moduleConfig->setInheritAll(true);
             static::$moduleConfig->setId(null);
         }
-
-        $configurationRepository->save(static::$moduleConfig);
+        static::saveModuleConfig();
     }
 
+    protected static function saveModuleConfig()
+    {
+        if (strpos(static::$instance->getPlatformVersion(), 'Wordpress') === false) {
+            $configurationRepository = new ConfigurationRepository;
+            $configurationRepository->save(static::$moduleConfig);
+        }
+    }
     protected static function loadSavedConfiguration()
     {
         $store = static::getCurrentStoreId();
@@ -241,7 +241,7 @@ abstract class AbstractModuleCoreSetup
 
         $moduleCoreSetupReflection = new ReflectionClass($concretePlatformCoreSetupClass);
         $concreteCoreSetupFilename = $moduleCoreSetupReflection->getFileName();
-        $concreteDir = explode(DIRECTORY_SEPARATOR, $concreteCoreSetupFilename);
+        $concreteDir = explode(DIRECTORY_SEPARATOR, $concreteCoreSetupFilename ?? '');
         array_pop($concreteDir);
 
         self::$moduleConcreteDir = implode(DIRECTORY_SEPARATOR, $concreteDir);

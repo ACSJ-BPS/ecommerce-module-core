@@ -129,8 +129,8 @@ class SubProduct extends AbstractEntity implements SubProductEntityInterface
      */
     public function setName($name)
     {
-        if (preg_match('/[^a-zA-Z0-9 ]+/i', $name)) {
-            $name = preg_replace('/[^a-zA-Z0-9 ]+/i', '', $name);
+        if (preg_match('/[^a-zA-Z0-9 ]+/i', $name ?? '')) {
+            $name = preg_replace('/[^a-zA-Z0-9 ]+/i', '', $name ?? '');
         }
 
         $this->name = substr($name, 0, 256);
@@ -234,6 +234,7 @@ class SubProduct extends AbstractEntity implements SubProductEntityInterface
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return [

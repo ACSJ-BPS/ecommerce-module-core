@@ -3,7 +3,7 @@
 namespace Pagarme\Core\Recurrence\ValueObjects;
 
 use Pagarme\Core\Kernel\Abstractions\AbstractValueObject;
-use Casio\Unirest\Exception;
+use Unirest\Exception;
 
 class IntervalValueObject extends AbstractValueObject
 {
@@ -117,6 +117,7 @@ class IntervalValueObject extends AbstractValueObject
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return [

@@ -8,12 +8,12 @@ final class WebhookType extends AbstractValueObject
 {
     /**
      *
-     * @var string 
+     * @var string
      */
     private $entityType;
     /**
      *
-     * @var string 
+     * @var string
      */
     private $action;
 
@@ -26,7 +26,7 @@ final class WebhookType extends AbstractValueObject
 
     static public function fromPostType($postType)
     {
-        $data = explode('.', $postType);
+        $data = explode('.', $postType ?? '');
         return new self($data[0], $data[1]);
     }
 
@@ -92,6 +92,7 @@ final class WebhookType extends AbstractValueObject
      * which is a value of any type other than a resource.
      * @since  5.4.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $obj = new \stdClass();

@@ -9,7 +9,7 @@ use Pagarme\Core\Hub\Factories\InstallTokenFactory;
 use Pagarme\Core\Hub\Repositories\InstallTokenRepository;
 use Pagarme\Core\Hub\ValueObjects\HubInstallToken;
 use Pagarme\Core\Kernel\Abstractions\AbstractModuleCoreSetup as MPSetup;
-use Casio\Unirest\Request;
+use Unirest\Request;
 
 final class HubIntegrationService
 {
@@ -58,7 +58,13 @@ final class HubIntegrationService
         $rawToken = $installToken;
 
         $installToken = $tokenRepo->findByPagarmeId(new HubInstallToken($installToken));
-
+        
+        if (is_null($installToken)) {
+            $message = "Received an invalid installToken. NULL: $rawToken";
+            $exception = new \Exception($message);
+            $this->logService->exception($exception);
+            throw $exception;
+        }
         if (empty($installToken)) {
             $message = "installToken not found in database. Raw Token: $rawToken";
 

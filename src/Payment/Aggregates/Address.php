@@ -2,7 +2,7 @@
 
 namespace Pagarme\Core\Payment\Aggregates;
 
-use MundiAPILib\Models\CreateAddressRequest;
+use PagarmeCoreApiLib\Models\CreateAddressRequest;
 use Pagarme\Core\Kernel\Abstractions\AbstractEntity;
 use Pagarme\Core\Kernel\Helper\StringFunctionsHelper;
 use Pagarme\Core\Kernel\Services\LocalizationService;
@@ -69,7 +69,7 @@ final class Address extends AbstractEntity implements ConvertibleToSDKRequestsIn
         $numberWithoutComma = str_replace(
             self::ADDRESS_LINE_SEPARATOR,
             '',
-            $number
+            $number ?? ''
         );
 
         $numberWithoutLineBreaks = StringFunctionsHelper::removeLineBreaks(
@@ -110,7 +110,7 @@ final class Address extends AbstractEntity implements ConvertibleToSDKRequestsIn
         $streetWithoutComma = str_replace(
             self::ADDRESS_LINE_SEPARATOR,
             '',
-            $street
+            $street ?? ''
         );
 
         $streetWithoutLineBreaks = StringFunctionsHelper::removeLineBreaks(
@@ -150,7 +150,7 @@ final class Address extends AbstractEntity implements ConvertibleToSDKRequestsIn
         $neighborhoodWithoutComma = str_replace(
             self::ADDRESS_LINE_SEPARATOR,
             '',
-            $neighborhood
+            $neighborhood ?? ''
         );
 
         $neighborhoodWithoutLineBreaks = StringFunctionsHelper::removeLineBreaks(
@@ -334,12 +334,13 @@ final class Address extends AbstractEntity implements ConvertibleToSDKRequestsIn
     }
 
     /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return string data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
+      * Specify data which should be serialized to JSON
+      * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+      * @return string data which can be serialized by <b>json_encode</b>,
+      * which is a value of any type other than a resource.
+      * @since 5.4.0
+    */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $obj = new \stdClass();
@@ -354,7 +355,7 @@ final class Address extends AbstractEntity implements ConvertibleToSDKRequestsIn
         $obj->country = $this->country;
         $obj->line1 = $this->getLine1();
         $obj->line2 = $this->getLine2();
-        
+
         return $obj;
     }
 
@@ -381,8 +382,8 @@ final class Address extends AbstractEntity implements ConvertibleToSDKRequestsIn
 
     private function formatZipCode($zipCode)
     {
-        $zipCode = str_replace('-', '', $zipCode);
-
+        $zipCode = str_replace('-', '', $zipCode ?? '');
+        $this->country = $this->country ?? "BR";
         $brazilianZipCodeLength = 8;
         if (strtoupper($this->country) === 'BR') {
             $zipCode = sprintf("%0${brazilianZipCodeLength}s", $zipCode);

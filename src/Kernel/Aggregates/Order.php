@@ -15,18 +15,18 @@ final class Order extends AbstractEntity
 
     /**
      *
-     * @var PlatformOrderInterface 
+     * @var PlatformOrderInterface
      */
     private $platformOrder;
 
     /**
      *
-     * @var OrderStatus 
+     * @var OrderStatus
      */
     private $status;
     /**
      *
-     * @var Charge[] 
+     * @var Charge[]
      */
     private $charges;
 
@@ -170,7 +170,7 @@ final class Order extends AbstractEntity
         $charges[] = $newCharge;
         $this->charges = $charges;
 
-        return $this;  
+        return $this;
     }
 
     public function updateCharge(ChargeInterface $updatedCharge, $overwriteId = false)
@@ -192,6 +192,25 @@ final class Order extends AbstractEntity
         $this->addCharge($updatedCharge);
     }
 
+    public function getSplitInfo()
+    {
+        $splitInfo = [];
+        foreach ($this->getCharges() as $charge) {
+            $transaction = $charge->getLastTransaction();
+            $postData = $transaction->getPostData();
+            $chargeId = $transaction->getChargeId()->getValue();
+            if (empty($postData->split)) {
+                continue;
+            }
+            foreach($postData->split as $split) {
+                $splitInfo[$chargeId][] = $split->recipient->name .
+                    ' (' . $split->recipient->id . ') - ' .
+                    $split->type . ': ' . $split->amount;
+            }
+        }
+        return $splitInfo;
+    }
+
     /**
      * Specify data which should be serialized to JSON
      *
@@ -200,6 +219,7 @@ final class Order extends AbstractEntity
      * which is a value of any type other than a resource.
      * @since  5.4.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $obj = new \stdClass();

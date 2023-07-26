@@ -11,7 +11,7 @@ final class CardConfig extends AbstractValueObject
 {
     /**
      *
-     * @var bool 
+     * @var bool
      */
     private $enabled;
     /**
@@ -21,28 +21,28 @@ final class CardConfig extends AbstractValueObject
     private $brand;
     /**
      *
-     * @var int 
+     * @var int
      */
     private $maxInstallment;
     /**
      *
-     * @var int 
+     * @var int
      */
     private $maxInstallmentWithoutInterest;
     /**
      *
-     * @var float 
+     * @var float
      */
     private $initialInterest;
     /**
      *
-     * @var float 
+     * @var float
      */
     private $incrementalInterest;
 
     /**
      *
-     * @var int 
+     * @var int
      */
     private $minValue;
 
@@ -139,10 +139,7 @@ final class CardConfig extends AbstractValueObject
         new Installment($newMaxInstallmentWithoutInterest, 1, 0);
 
         if ($newMaxInstallmentWithoutInterest > $this->maxInstallment) {
-            throw new InvalidParamException(
-                "'Max installment without interest' must be equal or smaller than 'Max Installments'! ",
-                $maxInstallmentWithoutInterest
-            );
+            $newMaxInstallmentWithoutInterest = $this->maxInstallment;
         }
 
         $this->maxInstallmentWithoutInterest = $newMaxInstallmentWithoutInterest;
@@ -261,13 +258,14 @@ final class CardConfig extends AbstractValueObject
     }
 
     /**
-     * Specify data which should be serialized to JSON
-     *
-     * @link   https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since  5.4.0
-     */
+      * Specify data which should be serialized to JSON
+      *
+      * @link   https://php.net/manual/en/jsonserializable.jsonserialize.php
+      * @return mixed data which can be serialized by <b>json_encode</b>,
+      * which is a value of any type other than a resource.
+      * @since  5.4.0
+    */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $obj = new \stdClass();

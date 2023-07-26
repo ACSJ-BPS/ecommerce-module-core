@@ -2,7 +2,7 @@
 
 namespace Pagarme\Core\Kernel\Services;
 
-use MundiAPILib\Models\GetChargeResponse;
+use PagarmeCoreApiLib\Models\GetChargeResponse;
 use Pagarme\Core\Kernel\Aggregates\Charge;
 use Pagarme\Core\Kernel\Exceptions\InvalidParamException;
 use Pagarme\Core\Kernel\Interfaces\ChargeInterface;
@@ -14,7 +14,7 @@ use Pagarme\Core\Kernel\ValueObjects\Id\ChargeId;
 use Pagarme\Core\Kernel\ValueObjects\Id\OrderId;
 use Pagarme\Core\Payment\Services\ResponseHandlers\OrderHandler;
 use Pagarme\Core\Webhook\Services\ChargeOrderService;
-use Casio\Unirest\Exception;
+use Unirest\Exception;
 
 class ChargeService
 {

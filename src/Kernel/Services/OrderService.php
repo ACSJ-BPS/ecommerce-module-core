@@ -287,11 +287,21 @@ final class OrderService
                 throw new \Exception($message, 400);
             }
 
-            $platformOrder->save();
+            if (strpos(MPSetup::getPlatformVersion(), 'Wordpress') === false) {
+                $platformOrder->save();
+            }
 
             $orderFactory = new OrderFactory();
             $order = $orderFactory->createFromPostData($response);
             $order->setPlatformOrder($platformOrder);
+
+            $split = $order->getSplitInfo();
+            foreach ($split as $chargeId => $splitInfo) {
+                $platformOrder->addHistoryComment(
+                    $i18n->getDashboard('ChargeId: %s - Split rules:',
+                        $chargeId) . '<br/>' . join('<br/>', $splitInfo)
+                );
+            }
 
             $handler = $this->getResponseHandler($order);
             $handler->handle($order, $paymentOrder);
@@ -331,7 +341,7 @@ final class OrderService
     private function getResponseHandler($response)
     {
         $responseClass = get_class($response);
-        $responseClass = explode('\\', $responseClass);
+        $responseClass = explode('\\', $responseClass ?? '');
 
         $responseClass =
             'Pagarme\\Core\\Payment\\Services\\ResponseHandlers\\' .
@@ -394,8 +404,13 @@ final class OrderService
         $order->setCode($platformOrder->getCode());
 
         $shipping = $platformOrder->getShipping();
-        if ($shipping !== null) {
+        if (!$shipping && $shipping !== null) {
             $order->setShipping($shipping);
+        }
+
+        $splitData = $platformOrder->handleSplitOrder();
+        if ($splitData !== null) {
+            $order->setSplitData($splitData);
         }
 
         return $order;

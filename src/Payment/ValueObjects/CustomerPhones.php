@@ -2,7 +2,7 @@
 
 namespace Pagarme\Core\Payment\ValueObjects;
 
-use MundiAPILib\Models\CreatePhonesRequest;
+use PagarmeCoreApiLib\Models\CreatePhonesRequest;
 use Pagarme\Core\Kernel\Abstractions\AbstractValueObject;
 use Pagarme\Core\Payment\Interfaces\ConvertibleToSDKRequestsInterface;
 
@@ -82,6 +82,7 @@ final class CustomerPhones extends AbstractValueObject implements ConvertibleToS
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $obj = new \stdClass();

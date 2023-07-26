@@ -3,7 +3,7 @@
 namespace Pagarme\Core\Payment\ValueObjects;
 
 
-use MundiAPILib\Models\CreatePhoneRequest;
+use PagarmeCoreApiLib\Models\CreatePhoneRequest;
 use Pagarme\Core\Kernel\Abstractions\AbstractValueObject;
 use Pagarme\Core\Kernel\ValueObjects\NumericString;
 use Pagarme\Core\Payment\Interfaces\ConvertibleToSDKRequestsInterface;
@@ -23,7 +23,7 @@ final class Phone extends AbstractValueObject implements ConvertibleToSDKRequest
      */
     public function __construct($phone)
     {
-        $phone = preg_replace('/(?!\d)./', '', $phone);
+        $phone = preg_replace('/(?!\d)./', '', $phone ?? '');
         $phone = sprintf("%05s", $phone);
 
         $this->countryCode = new NumericString(55);
@@ -86,6 +86,7 @@ final class Phone extends AbstractValueObject implements ConvertibleToSDKRequest
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $obj = new \stdClass();

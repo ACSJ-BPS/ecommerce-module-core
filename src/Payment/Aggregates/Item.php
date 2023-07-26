@@ -2,7 +2,7 @@
 
 namespace Pagarme\Core\Payment\Aggregates;
 
-use MundiAPILib\Models\CreateOrderItemRequest;
+use PagarmeCoreApiLib\Models\CreateOrderItemRequest;
 use Pagarme\Core\Kernel\Abstractions\AbstractEntity;
 use Pagarme\Core\Kernel\Exceptions\InvalidParamException;
 use Pagarme\Core\Payment\Interfaces\ConvertibleToSDKRequestsInterface;
@@ -67,8 +67,8 @@ final class Item extends AbstractEntity implements ConvertibleToSDKRequestsInter
      */
     public function setName($name)
     {
-        if (preg_match('/[^a-zA-Z0-9 ]+/i', $name)) {
-            $name = preg_replace('/[^a-zA-Z0-9 ]+/i', '', $name);
+        if (preg_match('/[^a-zA-Z0-9 ]+/i', $name ?? '')) {
+            $name = preg_replace('/[^a-zA-Z0-9 ]+/i', '', $name ?? '');
         }
         $this->name = $name;
     }
@@ -113,12 +113,13 @@ final class Item extends AbstractEntity implements ConvertibleToSDKRequestsInter
     }
 
     /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
+      * Specify data which should be serialized to JSON
+      * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+      * @return mixed data which can be serialized by <b>json_encode</b>,
+      * which is a value of any type other than a resource.
+      * @since 5.4.0
+    */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $obj = new \stdClass();
