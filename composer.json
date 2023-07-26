@@ -12,7 +12,7 @@
   "require": {
     "php": ">=7.1",
     "monolog/monolog": "<3",
-    "casio/pagarmecoreapi": "dev-2.4.5-P1-Upgrade",
+    "casio/pagarmecoreapi": "dev-master",
     "ext-json": "*"
   },
   "require-dev": {
