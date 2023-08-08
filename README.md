@@ -1,3 +1,4 @@
+# Deprecated Repo - Use https://github.com/ACSJ-BPS/casio-ecommerce-module-core
 
 [![Latest Stable Version](https://poser.pugx.org/pagarme/ecommerce-module-core/v/stable)](https://packagist.org/packages/pagarme/ecommerce-module-core)
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=pagarme_ecommerce-module-core&metric=alert_status)](https://sonarcloud.io/dashboard?id=pagarme_ecommerce-module-core)
